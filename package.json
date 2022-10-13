@@ -1,0 +1,23 @@
+{
+  "name": "eps_uam",
+  "version": "1.0.0",
+  "description": "",
+  "main": "practica.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andresfrodriguez25/eps_uam.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/andresfrodriguez25/eps_uam/issues"
+  },
+  "homepage": "https://github.com/andresfrodriguez25/eps_uam#readme",
+  "dependencies": {
+    "factorial": "^2.0.0"
+  }
+}
