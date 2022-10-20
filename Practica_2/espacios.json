@@ -1,0 +1,15 @@
+{
+    "Primero":{
+    "id":"room1",
+    "name":"Sala de reuniones 1er Piso"
+},
+
+"Segundo":{
+    "id":"room2",
+    "name":"Sala de reuniones 2o Piso"
+},
+"Tercero":{
+    "id":"room3",
+    "name":"Sala de reuniones 3er Piso"
+}
+}
