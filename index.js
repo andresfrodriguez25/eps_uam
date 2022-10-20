@@ -10,4 +10,6 @@ import factorial from 'factorial'
 let n=3;
 console.log(factorial(n,{}))
 
-//Hola buenas
+console.log(factorial(n,{}))
+
+//Hola
