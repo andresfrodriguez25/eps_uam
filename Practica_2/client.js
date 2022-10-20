@@ -6,3 +6,5 @@ async function testHelloWorld(){
 }
 const hello = await testHelloWorld()
 console.log('Prueba de conexión, resultado: ' + hello)
+
+const resultado = await axios.put(server+'/booking/'+rid+'/'+uid, data)
