@@ -44,15 +44,18 @@ app.get('/room/', (req, res) => {
 // Listar espacios dependiendo del Room ID
 app.get('/room/:rid', (req, res) => {
     const rid = req.params.rid
-    const espaciosfiltrados = espacios.filter((lambda) => lambda.id !== rid)
+
+    const espaciosfiltrados = espacios.filter((lambda) => lambda.id == rid)
     res.send({ espaciosfiltrados })
     console.log("-----------------------------------------------------------------------")
     console.log(espaciosfiltrados)
+
+
 })
 
 //------------------ASIGNAR ESPACIOS-----------------------------------------------------
 
-/*
+
 app.put('/room/:rid', (req, res) => {
     const rid = req.params.rid
     const data_room = req.body
@@ -63,12 +66,12 @@ app.put('/room/:rid', (req, res) => {
 
     espacios.push(espacio_nuevo)// Con push() se introduce un nuevo elemento al array
 
-    save('espacios.json', espacios)
+    save('room.json', espacios)
     res.send('Espacio creado')
     console.log(espacios)
 })
 
-*/
+
 //------------------BORRAR ESPACIOS------------------------------------------------------
 
 /*
@@ -94,43 +97,76 @@ var max = 9999;
 
 //------------------AÑADIR UN NUEVO USUARIO Y LOGIN------------------------------------
 
-const str_user = await readFile('user.json', 'utf8');
-const usuarios = JSON.parse(str_user);
+//const str_user = await readFile('user.json', 'utf8');
+//const usuarios = JSON.parse(str_user);
 
 app.post('/user', (req, res) => {
     const data_user = req.body
     const randomtoken = Math.floor(Math.random() * (max - min + 1) + min);
 
-    if ((usuarios.email == data_user.email) && (usuarios.password == data_user.password)) {  //Si ya existía un usuario con ese e-mail, y la contraseña coincide, devolverá
+    var usuario_existe = usuarios.find(users => users.email == data_user.email)
+
+    if (usuario_existe != null) {  //Si ya existía un usuario con ese e-mail, y la contraseña coincide, devolverá
         const id_token = {                                                            //el ID del usuario y un token que sustituye a la clave y permitirá autenticar al usuario
             ID: data_user.id,
             token: randomtoken
         }
 
-        res.send(id_token)
-    }// Pero si no existe, lo creara al añadirlo al user.json y devolvera el nuevo id y token
+        if (users.password == data_user.password) {
+            console.log("Usuario correcto")
+            res.send(id_token)
+        }
+        else {
+            console.log("Usuario existe, contraseña incorrecta")
+            res.status.send("Usurario existente pero contraseña errónea")
+        }
+
+    }
+    // Pero si no existe, lo creara al añadirlo al user.json y devolvera el nuevo id y token
     else {
-        const usuario_nuevo = {
+        const usuario_nuevo = { // Estructura del nuevo usuario que se creará con los datos dados por req.body
             email: data_user.email,
             password: data_user.password,
             ID: data_user.id,
             token: randomtoken
         }
 
-        res.send(usuario_nuevo.ID,usuario_nuevo.token)
-        console.log(usuario_nuevo.ID,usuario_nuevo.token)
+        const id_token = {  //  Objeto que se devolverá con el ID y el token de autenticación del NUEVO USUARIO QUE HA SIDO CREADO
+            ID: usuario_nuevo.ID,
+            token: usuario_nuevo.token
+        }
+
+
+        console.log("Usuario nuevo creado con ID: " + id_token.ID + " y token de autenticación: " + id_token.token)
+        usuarios.push(usuario_nuevo)
+        save('user.json', usuarios)
+
+
+        res.send({ id_token })
+        console.log(id_token)
+
+
     }
-
-    usuarios.push(usuario_nuevo)
-
-    save('user.json', usuarios)
-    res.send('Usuario creado con id: ' + usuario_nuevo.ID + ' y token ' + usuario_nuevo.token)
-    console.log('Usuario creado con id: ' + usuario_nuevo.ID + ' y token ' + usuario_nuevo.token)
 })
 
 //------------------ELIMINAR UN USUARIO------------------------------------------------
 
-app.delete('/user')
+app.delete('/user/:uid', (req, res) => {
+    const uid = req.params.uid  // ID del usuario dada por el cliente
+
+    const posicion = users.findIndex(x => x.id == uid)
+    if (posicion >= 0) {
+        const usuarios_filtrados = usuarios.splice(posicion, 1)
+
+        save('user.json', usuarios_filtrados)
+        res.send('Exito')
+    } else {
+        res.send('No existe')
+    }
+
+})
+
+
 
 
 

@@ -23,24 +23,18 @@ console.log("Cliente ejecutado")
 /*****************************************************************************************/
 
 
-
-
-//const espacio = new room("123", "room123")
-//const str = JSON.stringify({ espacio })
-
 //------------------LISTAR ESPACIOS------------------
 
-/*
-await axios.get(server + '/room')
-await axios.get(server + '/room/' + rid)
+const rid = process.argv.slice(2)
+//await axios.get(server + '/room/' + rid)
 
-*/
+
 //------------------ASIGNAR ESPACIOS-----------------
 function room(name) {
     this.name = name;
 }
 
-//const espacio1 = new room("process.argv.slice(3)")
+const espacio1 = new room("Sala de reuniones 1er piso")
 //await axios.put(server +'/room/'+rid,espacio1)
 
 //------------------BORRAR ESPACIOS------------------------------------------------------
@@ -58,11 +52,13 @@ function user(email, password, id) {
 }
 
 //------------------AÑADIR UN NUEVO USUARIO Y LOGIN------------------------------------
-const usuario1 = new user("123@gmail.com", "123", "user1")
-await axios.post(server + '/user', usuario1)
+const usuario1 = new user("123@gmail.com", "rocio123", "rociogonz")
+// await axios.post(server + '/user', usuario1)
 
 
 //------------------ELIMINAR UN USUARIO------------------------------------------------
+
+//await axios.delete(server +'/user/rociogonz')
 
 
 /*****************************************************************************************/
