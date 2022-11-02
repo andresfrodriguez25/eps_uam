@@ -34,8 +34,8 @@ function room(name) {
     this.name = name;
 }
 
-const espacio1 = new room("Sala de reuniones 1er piso")
-//await axios.put(server +'/room/'+rid,espacio1)
+const espacio1 = new room("Sala de reuniones 2o piso")
+// await axios.put(server + '/room/' + rid, espacio1)
 
 //------------------BORRAR ESPACIOS------------------------------------------------------
 
@@ -52,8 +52,8 @@ function user(email, password, id) {
 }
 
 //------------------AÑADIR UN NUEVO USUARIO Y LOGIN------------------------------------
-const usuario1 = new user("123@gmail.com", "rocio123", "rociogonz")
-// await axios.post(server + '/user', usuario1)
+const usuario1 = new user("123@gmail.com", "r123", "rociogonz")
+await axios.post(server + '/user', usuario1)
 
 
 //------------------ELIMINAR UN USUARIO------------------------------------------------
@@ -74,10 +74,11 @@ function booking(rid, uid, date, hours) {
 //------------------LISTAR RESERVAS DE UN ESPACIO-------------------------------------------
 
 
-const reserva1 = new booking(12,421221,"2022-10-31 18:00:00",5)
+//await axios.get(server + '/booking/')
+const reserva1 = new booking(12, 421221, "2022-10-31 18:00:00", 5)
 
 //------------------AÑADIR UNA RESERVA------------------------------------------------------
-//await axios.put(server + '/booking/'+reserva1.rid+'/'+reserva1.uid, data)
+//await axios.put(server + '/booking/'+reserva1.rid+'/'+reserva1.uid, reserva1)
 
 
 

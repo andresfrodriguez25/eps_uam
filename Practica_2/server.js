@@ -1,7 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import { readFile, writeFile } from 'fs/promises'
-import { constants } from 'buffer'
 
 const PORT = 8080
 const app = express()
@@ -9,13 +8,13 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-/*
+
 async function load(archivo) {
     const str = await readFile(archivo, 'utf8');
     const datos = JSON.parse(str);
     return datos;
 }
-*/
+
 async function save(archivo, misDatos) {
     const str = JSON.stringify(misDatos);
     await writeFile(archivo, str, 'utf8');
@@ -27,12 +26,13 @@ app.get('/', (req, res) => {
     res.send(resultado)
 })
 
+// CARGA DE FICHEROS
+
+const espacios = await load('room.json')
+const usuarios = await load('user.json')
+const reservas = await load('booking.json')
 
 //************************************ESPACIOS*********************************************/      
-//const espacios = await load('espacios.json')
-
-const str_room = await readFile('room.json', 'utf8');
-const espacios = JSON.parse(str_room);
 //------------------LISTAR ESPACIOS------------------------------------------------------
 
 
@@ -59,26 +59,21 @@ app.get('/room/:rid', (req, res) => {
 app.put('/room/:rid', (req, res) => {
     const rid = req.params.rid
     const data_room = req.body
-    const espacio_nuevo = { //Constante que crea los elementos a añadir
+    const espacio_nuevo = {
+        //Constante que crea los elementos a añadir
         id: rid,
         name: data_room.name
     }
 
     espacios.push(espacio_nuevo)// Con push() se introduce un nuevo elemento al array
-
     save('room.json', espacios)
-    res.send('Espacio creado')
     console.log(espacios)
+
 })
 
 
 //------------------BORRAR ESPACIOS------------------------------------------------------
 
-/*
-app.delete('room/:rid', async (req, res) => {
-
-}
-)*/
 
 
 
@@ -86,41 +81,24 @@ app.delete('room/:rid', async (req, res) => {
 /************************************USUARIOS*********************************************/
 /*****************************************************************************************/
 
-function user_answer(id, token) {
-    this.id == id
-    this.token == token
-}
-
-var min = 1111;
-var max = 9999;
-
-
+//------------------LISTAR USUARIOS----------------------------------------------------
+app.get('/user',(req,res)=>{
+    res.send(usuarios)
+})
 //------------------AÑADIR UN NUEVO USUARIO Y LOGIN------------------------------------
 
-//const str_user = await readFile('user.json', 'utf8');
-//const usuarios = JSON.parse(str_user);
 
 app.post('/user', (req, res) => {
     const data_user = req.body
-    const randomtoken = Math.floor(Math.random() * (max - min + 1) + min);
+    const randomtoken = Math.floor(Math.random() * (9999 - 1111 + 1) + 1111);
 
-    var usuario_existe = usuarios.find(users => users.email == data_user.email)
+    var email_existe = usuarios.find((users) => users.email == data_user.email)
 
-    if (usuario_existe != null) {  //Si ya existía un usuario con ese e-mail, y la contraseña coincide, devolverá
-        const id_token = {                                                            //el ID del usuario y un token que sustituye a la clave y permitirá autenticar al usuario
-            ID: data_user.id,
-            token: randomtoken
+    
+    if (email_existe != null) {  //Si ya existía un usuario con ese e-mail, y la contraseña coincide, devolverá
+        if(usuarios.password == data_user.password){
+            console.log("Coinciden email y contraseña")
         }
-
-        if (users.password == data_user.password) {
-            console.log("Usuario correcto")
-            res.send(id_token)
-        }
-        else {
-            console.log("Usuario existe, contraseña incorrecta")
-            res.status.send("Usurario existente pero contraseña errónea")
-        }
-
     }
     // Pero si no existe, lo creara al añadirlo al user.json y devolvera el nuevo id y token
     else {
@@ -178,13 +156,13 @@ app.delete('/user/:uid', (req, res) => {
 
 //------------------LISTAR RESERVAS DE UN ESPACIO-------------------------------------------
 
-//const reservas = load('booking.js')
-const str_booking = await readFile('booking.json', 'utf8');
-const reservas = JSON.parse(str_booking);
-
-app.put('/booking/room/:rid', (req, res) => {
+app.get('/booking',(req,res) =>{
+    res.send(reservas)
+    console.log(reservas)
+})
+app.get('/booking/room/:rid', (req, res) => {
     const rid = req.params.rid
-    const espaciosreservados = espacios.filter((x, y) => x.id == y.rid)
+    const espaciosreservados = espacios.filter((x, y) => x.id == rid)
     res.send({ espaciosfiltrados })
     console.log("-----------------------------------------------------------------------")
     console.log(espaciosfiltrados)
@@ -194,7 +172,6 @@ app.put('/booking/room/:rid', (req, res) => {
 //------------------AÑADIR UNA RESERVA------------------------------------------------------
 
 app.put('/booking/:rid/:uid', (req, res) => {
-    const archivo = 'booking.json'
     const rid = req.params.rid
     const uid = req.params.uid
     const data = req.body

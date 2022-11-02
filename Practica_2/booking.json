@@ -1,1 +1,7 @@
-{ "roomID": "13", "userID": "424131", "Fecha": "2022-10-27", "Horas": "5" }
+[
+  { "roomID": "1", "userID": "maria23", "Fecha": "2022-10-27", "Horas": "5" },
+  { "roomID": "2", "userID": "dario15", "Fecha": "2022-10-23", "Horas": "3" },
+  { "roomID": "3", "userID": "jose29", "Fecha": "2022-10-21", "Horas": "1" },
+  { "roomID": "4", "userID": "miguel16", "Fecha": "2022-10-31", "Horas": "2" },
+  { "roomID": "5", "userID": "lucia2", "Fecha": "2022-10-2", "Horas": "5" }
+]

@@ -2,13 +2,13 @@
   { "email": "123@gmail.com", "password": "123", "ID": "user1", "token": 2450 },
   {
     "email": "luis25@gmail.com",
-    "password": "1234",
+    "password": "123",
     "ID": "luis25",
     "token": 1996
   },
   {
     "email": "luis25@gmail.com",
-    "password": "1234",
+    "password": "123",
     "ID": "luis25",
     "token": 1996
   }
