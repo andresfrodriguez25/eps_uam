@@ -36,11 +36,11 @@ function room(name) {
 }
 
 const espacio1 = new room("Baño 4o piso")
-await axios.put(server + '/room/' + info, espacio1)
+// await axios.put(server + '/room/' + info, espacio1)
 
 //------------------BORRAR ESPACIOS------------------------------------------------------
 
-//await axios.delete(server + '/room/'+rid)
+//await axios.delete(server + '/room/'+info)
 
 /*****************************************************************************************/
 /************************************USUARIOS*********************************************/

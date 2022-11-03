@@ -72,9 +72,41 @@ app.put('/room/:rid', (req, res) => {
 
 })
 
+console.log(reservas)
+console.log(espacios)
+
+if(reservas.roomID == espacios.id){
+    const reservaborrada = reservas.filter((booking) => booking.roomID != 1)
+    console.log(reservaborrada)
+    save('booking.json',reservaborrada)
+}
 
 //------------------BORRAR ESPACIOS------------------------------------------------------
 
+app.delete('/room/:rid',(req,res) => {
+    const rid = req.params.rid
+    const espacio_existe = espacios.find((room) => room.id == rid)
+
+    console.log(espacio_existe)
+    if(espacio_existe != null){
+        const espacios_actualizado = espacios.filter((room) => room.id != rid)
+        
+
+        if(espacio_existe.id == reservas.roomID){
+            const reservas_actualizado = reservas.filter((booking,room) => booking.id != room.roomID)
+            console.log(reservas_actualizado)
+        }
+
+        console.log(espacios_actualizado)
+        res.send("ESPACIO BORRADO CORRECTAMENTE")
+        save('room.json',espacios_actualizado)
+    }
+    else{
+        console.log("NO EXISTE EL ESPACIO CON ESE ID")
+        res.send("NO EXISTE ESPACIO CORRECTO")
+    }
+
+})
 
 
 

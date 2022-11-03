@@ -1,1 +1,8 @@
-[{"id":"1","name":"Sala de reuniones 5o piso"},{"id":"3","name":"Auditorio"},{"id":"5","name":"Despachos"},{"id":"7","name":"Sala de juntas"},{"id":"6","name":"Sala de reuniones 2o piso"},{"id":"6","name":"Sala de reuniones 2o piso"},{"id":"8","name":"Comedor 2o piso"},{"id":"8","name":"Comedor 4o piso"},{"id":"8","name":"Baño 4o piso"},{"id":"8","name":"Baño 4o piso"},{"id":"8","name":"Baño 4o piso"}]
+[
+  { "id": "1", "name": "Sala de juntas" },
+  { "id": "2", "name": "Comedor 2o piso" },
+  { "id": "3", "name": "Comedor 4o piso" },
+  { "id": "4", "name": "Baño 4o piso" },
+  { "id": "5", "name": "Baño 5o piso" },
+  { "id": "6", "name": "Baño 6o piso" }
+]
