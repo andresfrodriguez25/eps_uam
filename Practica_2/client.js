@@ -15,17 +15,18 @@ async function save(archivo, misDatos) {
     await writeFile(archivo, str, 'utf8')
 }
 
-await axios.get(server + '/room')
+//await axios.get(server + '/room')
 console.log("Cliente ejecutado")
 
 /*****************************************************************************************/
 /************************************ESPACIOS*********************************************/
 /*****************************************************************************************/
+const info = process.argv.slice(2)
 
 
 //------------------LISTAR ESPACIOS------------------
 
-const rid = process.argv.slice(2)
+//const rid = process.argv.slice(2)
 //await axios.get(server + '/room/' + rid)
 
 
@@ -34,8 +35,8 @@ function room(name) {
     this.name = name;
 }
 
-const espacio1 = new room("Sala de reuniones 2o piso")
-// await axios.put(server + '/room/' + rid, espacio1)
+const espacio1 = new room("Baño 4o piso")
+await axios.put(server + '/room/' + info, espacio1)
 
 //------------------BORRAR ESPACIOS------------------------------------------------------
 
@@ -51,9 +52,13 @@ function user(email, password, id) {
     this.id = id
 }
 
+//------------------LISTAR USUARIOS----------------------------------------------------
+
+//await axios.get(server + '/user/' + info)
+
 //------------------AÑADIR UN NUEVO USUARIO Y LOGIN------------------------------------
-const usuario1 = new user("123@gmail.com", "r123", "rociogonz")
-await axios.post(server + '/user', usuario1)
+const usuario1 = new user("nerea123@gmail.com", "123", "nereareyes13")
+//await axios.post(server + '/user', usuario1)
 
 
 //------------------ELIMINAR UN USUARIO------------------------------------------------

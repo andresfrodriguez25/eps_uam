@@ -65,6 +65,7 @@ app.put('/room/:rid', (req, res) => {
         name: data_room.name
     }
 
+    res.send("ESPACIO ASIGNADO")
     espacios.push(espacio_nuevo)// Con push() se introduce un nuevo elemento al array
     save('room.json', espacios)
     console.log(espacios)
@@ -82,8 +83,14 @@ app.put('/room/:rid', (req, res) => {
 /*****************************************************************************************/
 
 //------------------LISTAR USUARIOS----------------------------------------------------
-app.get('/user',(req,res)=>{
+app.get('/user', (req, res) => {
     res.send(usuarios)
+})
+
+app.get('/user/:email',(req,res) => {
+    const email = req.params.email
+    const infousuario = usuarios.filter((user) => user.email == email)
+    res.send(infousuario)
 })
 //------------------AÑADIR UN NUEVO USUARIO Y LOGIN------------------------------------
 
@@ -94,38 +101,52 @@ app.post('/user', (req, res) => {
 
     var email_existe = usuarios.find((users) => users.email == data_user.email)
 
-    
-    if (email_existe != null) {  //Si ya existía un usuario con ese e-mail, y la contraseña coincide, devolverá
-        if(usuarios.password == data_user.password){
-            console.log("Coinciden email y contraseña")
+
+    for (let i = 0; i < usuarios.length; i++) {
+        if ((usuarios[i].email == data_user.email) & (usuarios[i].password == data_user.password)) {
+
+            /*    if (usuarios[i].password == data_user.password) {
+                console.log("El usuario con email: " + data_user.email + " existe")
+                const respuesta = {
+                    id: data_user.id,
+                    token: randomtoken
+                }
+
+                console.log("ID USUARIO: "+respuesta.id + " Y TOKEN DE AUTENTICACIÓN: "+respuesta.token)
+                return
+            }
+            else {
+                console.log("EMAIL VÁLIDO, PRUEBE CON OTRA CONTRASEÑA")
+            }
+            */
+            console.log("El usuario existe")
+            const respuesta = {
+                id: data_user.id,
+                token: randomtoken
+            }
+
+            console.log("ID USUARIO: "+respuesta.id + " Y TOKEN DE AUTENTICACIÓN: "+respuesta.token)
+            return
         }
-    }
-    // Pero si no existe, lo creara al añadirlo al user.json y devolvera el nuevo id y token
-    else {
-        const usuario_nuevo = { // Estructura del nuevo usuario que se creará con los datos dados por req.body
-            email: data_user.email,
-            password: data_user.password,
-            ID: data_user.id,
-            token: randomtoken
+        else {
+            const nuevo_usuario = {
+                email: data_user.email,
+                password: data_user.password,
+                respuesta: {
+                    ID: data_user.id,
+                    token: randomtoken
+                }
+
+            }
+            console.log(nuevo_usuario.respuesta)
+            usuarios.push(nuevo_usuario)
+            save('user.json', usuarios)
+            return
         }
-
-        const id_token = {  //  Objeto que se devolverá con el ID y el token de autenticación del NUEVO USUARIO QUE HA SIDO CREADO
-            ID: usuario_nuevo.ID,
-            token: usuario_nuevo.token
-        }
-
-
-        console.log("Usuario nuevo creado con ID: " + id_token.ID + " y token de autenticación: " + id_token.token)
-        usuarios.push(usuario_nuevo)
-        save('user.json', usuarios)
-
-
-        res.send({ id_token })
-        console.log(id_token)
-
 
     }
 })
+
 
 //------------------ELIMINAR UN USUARIO------------------------------------------------
 
@@ -156,7 +177,7 @@ app.delete('/user/:uid', (req, res) => {
 
 //------------------LISTAR RESERVAS DE UN ESPACIO-------------------------------------------
 
-app.get('/booking',(req,res) =>{
+app.get('/booking', (req, res) => {
     res.send(reservas)
     console.log(reservas)
 })
