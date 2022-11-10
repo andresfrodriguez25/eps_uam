@@ -27,7 +27,9 @@ const info = process.argv.slice(2)
 //------------------LISTAR ESPACIOS------------------
 
 //const rid = process.argv.slice(2)
-//await axios.get(server + '/room/' + rid)
+await axios.get(server + '/room/' )
+
+//await axios.get(server + '/room/' + info)
 
 
 //------------------ASIGNAR ESPACIOS-----------------
@@ -35,7 +37,8 @@ function room(name) {
     this.name = name;
 }
 
-const espacio1 = new room("Baño 4o piso")
+const espacio1 = new room("Baño")
+
 // await axios.put(server + '/room/' + info, espacio1)
 
 //------------------BORRAR ESPACIOS------------------------------------------------------
@@ -49,7 +52,6 @@ const espacio1 = new room("Baño 4o piso")
 function user(email, password, id) {
     this.email = email
     this.password = password
-    this.id = id
 }
 
 //------------------LISTAR USUARIOS----------------------------------------------------
@@ -57,8 +59,8 @@ function user(email, password, id) {
 //await axios.get(server + '/user/' + info)
 
 //------------------AÑADIR UN NUEVO USUARIO Y LOGIN------------------------------------
-const usuario1 = new user("nerea123@gmail.com", "123", "nereareyes13")
-//await axios.post(server + '/user', usuario1)
+const usuario1 = new user("123@gmail.com", "123")
+await axios.post(server + '/user', usuario1)
 
 
 //------------------ELIMINAR UN USUARIO------------------------------------------------
@@ -80,7 +82,7 @@ function booking(rid, uid, date, hours) {
 
 
 //await axios.get(server + '/booking/')
-const reserva1 = new booking(12, 421221, "2022-10-31 18:00:00", 5)
+const reserva1 = new booking(17, 128, "2022-10-31 18:00:00", 5)
 
 //------------------AÑADIR UNA RESERVA------------------------------------------------------
 //await axios.put(server + '/booking/'+reserva1.rid+'/'+reserva1.uid, reserva1)

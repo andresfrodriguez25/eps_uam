@@ -1,50 +1,14 @@
 [
   {
     "email": "123@gmail.com",
-    "password": "123",
-    "ID": "123user",
-    "token": 2048
+    "password": "pass123"
   },
   {
-    "email": "luis25@gmail.com",
-    "password": "luis123",
-    "ID": "luis25",
-    "token": 1996
+    "email": "456@gmail.com",
+    "password": "pass456"
   },
   {
-    "email": "alex25@gmail.com",
-    "password": "1234",
-    "ID": "luis25",
-    "token": 1996
-  },
-  {
-    "email": "rocio123@gmail.com",
-    "password": "123",
-    "respuesta": { "ID": "rocio23gonz", "token": 9063 }
-  },
-  {
-    "email": "pab123@gmail.com",
-    "password": "123",
-    "respuesta": { "ID": "rocio23gonz", "token": 8872 }
-  },
-  {
-    "email": "rocio123@gmail.com",
-    "password": "123",
-    "respuesta": { "ID": "rocio23gonz", "token": 1993 }
-  },
-  {
-    "email": "raul123@gmail.com",
-    "password": "123",
-    "respuesta": { "ID": "rocio23gonz", "token": 7893 }
-  },
-  {
-    "email": "nerea123@gmail.com",
-    "password": "123",
-    "respuesta": { "ID": "nereareyes13", "token": 5536 }
-  },
-  {
-    "email": "pablo123@gmail.com",
-    "password": "123",
-    "respuesta": { "ID": "nereareyes13", "token": 8768 }
+    "email": "789@gmail.com",
+    "password": "pass789"
   }
 ]
