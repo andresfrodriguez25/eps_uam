@@ -1,44 +1,8 @@
 [
   {
     "roomID": "1",
-    "userID": "user1",
-    "Fecha": "2022-10-21 17:00",
-    "Horas": "3"
-  },
-  {
-    "roomID": "5",
-    "userID": "user4",
-    "Fecha": "2022-11-15 12:00",
-    "Horas": "1"
-  },
-  {
-    "roomID": "1",
-    "userID": "user3",
-    "Fecha": "2022-11-02 14:00",
-    "Horas": "8"
-  },
-  {
-    "roomID": "2",
     "userID": "user2",
-    "Fecha": "2022-10-21 20:00",
-    "Horas": "1"
-  },
-  {
-    "roomID": "3",
-    "userID": "user5",
-    "Fecha": "2022-10-31 11:00",
-    "Horas": "2"
-  },
-  {
-    "roomID": "1",
-    "userID": "user1",
-    "Fecha": "2022-11-17 18:20:00",
-    "Horas": 10
-  },
-  {
-    "roomID": "5",
-    "userID": "user4",
-    "Fecha": "2022-12-24 13:30:00",
-    "Horas": 2
+    "Fecha": "2022-11-15 12:00:00",
+    "Horas": 1
   }
 ]

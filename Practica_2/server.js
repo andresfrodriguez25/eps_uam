@@ -32,28 +32,23 @@ const espacios = await load('room.json')
 const usuarios = await load('user.json')
 const reservas = await load('booking.json')
 
-
-
 //************************************ESPACIOS*********************************************/      
 //------------------LISTAR ESPACIOS------------------------------------------------------
 
 
 // Lista TODOS los espacios
 app.get('/room/', (req, res) => {
-    //res.send({espacios }
-
-    readFile('room.json').then(resultado => res.send(resultado))
+    res.send(espacios)
+    console.log(espacios)
 })
 
 // Listar espacios dependiendo del Room ID
 app.get('/room/:rid', (req, res) => {
     const rid = req.params.rid
-
-    const espaciosfiltrados = espacios.filter((lambda) => lambda.id == rid)
-    res.send({ espaciosfiltrados })
+    const espaciosfiltrados = espacios.filter((room) => room.id === rid)
     console.log("-----------------------------------------------------------------------")
     console.log(espaciosfiltrados)
-
+    res.send(espaciosfiltrados)
 
 })
 
@@ -74,7 +69,6 @@ app.put('/room/:rid', (req, res) => {
         espacios[i_coincidencia] = espacio_nuevo
         save('room.json', espacios)
         console.log("ID EXISTIA")
-
     }
     else {
         espacios.push(espacio_nuevo)
@@ -82,7 +76,7 @@ app.put('/room/:rid', (req, res) => {
         console.log("NO EXISTIA")
     }
 
-    res.send("OK")
+    res.send("ESPACIO ASIGNADO")
 })
 
 
@@ -197,7 +191,7 @@ app.post('/user', (req, res) => {
 
 
 app.delete('/user/:uid', (req, res) => {
-    const uid = req.params.uid  // ID DEL USUARIO   123
+    const uid = req.params.uid  // ID DEL USUARIO
 
 
     const usuario_existe = usuarios.find((user) => user.email.split("@")[0] == uid)
@@ -283,18 +277,30 @@ app.put('/booking/:rid/:uid', (req, res) => {
 })
 
 
+
+// const usuario_existe = usuarios.find((user) => user.email.split("@")[0] == 'user1')
+// const espacio_existe = espacios.find((room) => room.id == '1')
+// const reserva_existe = reservas.filter(x => x.roomID == 5 & x.userID == 'user4')
+
+// const reservas_filtradas = reservas.filter((x) => (x.roomID != 5 || x.userID != 'user4'))
+
+
+// console.table(reservas)
+
+// console.table(reserva_existe)
+// console.table(reservas_filtradas)
+
 //------------------ELIMINAR TODAS LAS RESERVAS DE UN ASOCIADAS A UN USUARIO--------
 
 app.delete('/booking/:rid/:uid', (req, res) => {
     const rid = req.params.rid
     const uid = req.params.uid
-    const roomID = reservas.roomID
-    const userID = reservas.userID
 
-    const reservas_filtradas = reservas.filter((x) => (x.uid != userID))
+    const reservas_filtradas = reservas.filter((x) => (x.roomID != rid || x.userID != uid))
 
     save('booking.json', reservas_filtradas)
-    res.send(reservas_filtradas)
+    console.log('BORRADAS LAS RESERVAS ASOCIADAS A RID: ' + rid + ' y UID: ' + uid)
+    res.send('OK')
 
 })
 
