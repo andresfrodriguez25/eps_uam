@@ -1,6 +1,9 @@
 [
-  { "id": "1", "name": "Comedor" },
-  { "id": "2", "name": "Salon" },
-  { "id": "3", "name": "Comedor" },
-  { "id": "5", "name": "Baño" }
+  { "id": "1", "name": "Sala de reuniones" },
+  { "id": "2", "name": "Auditorio" },
+  { "id": "3", "name": "Espacio multiusos 1" },
+  { "id": "4", "name": "Espacio multiusos 2" },
+  { "id": "5", "name": "Laboratorio A3" },
+  { "id": "6", "name": "Terraza azotea" },
+  { "id": "7", "name": "Espacio multiusos 3" }
 ]

@@ -27,7 +27,7 @@ const info = process.argv.slice(2)
 //------------------LISTAR ESPACIOS------------------
 
 //const rid = process.argv.slice(2)
-await axios.get(server + '/room/' )
+//await axios.get(server + '/room/' )
 
 //await axios.get(server + '/room/' + info)
 
@@ -59,38 +59,35 @@ function user(email, password, id) {
 //await axios.get(server + '/user/' + info)
 
 //------------------AÑADIR UN NUEVO USUARIO Y LOGIN------------------------------------
-const usuario1 = new user("123@gmail.com", "123")
-await axios.post(server + '/user', usuario1)
+const usuario1 = new user("pablito29@gmail.com", "12383")
+//await axios.post(server + '/user', usuario1)
 
 
 //------------------ELIMINAR UN USUARIO------------------------------------------------
 
-//await axios.delete(server +'/user/rociogonz')
+//await axios.delete(server +'/user/'+info)
 
 
 /*****************************************************************************************/
 /************************************RESERVAS*********************************************/
 /*****************************************************************************************/
-function booking(rid, uid, date, hours) {
-    this.rid = rid
-    this.uid = uid
+
+//------------------LISTAR RESERVAS DE UN ESPACIO-------------------------------------------
+
+//await axios.get(server + '/booking/')
+
+//------------------AÑADIR UNA RESERVA------------------------------------------------------
+function booking(date, hours) {
     this.date = date
     this.hours = hours
 }
 
-//------------------LISTAR RESERVAS DE UN ESPACIO-------------------------------------------
+const reserva = new booking("2022-12-24 13:30:00", 2)
+
+//await axios.put(server + '/booking/7/user5', reserva)
 
 
-//await axios.get(server + '/booking/')
-const reserva1 = new booking(17, 128, "2022-10-31 18:00:00", 5)
-
-//------------------AÑADIR UNA RESERVA------------------------------------------------------
-//await axios.put(server + '/booking/'+reserva1.rid+'/'+reserva1.uid, reserva1)
-
-
-
-
-//------------------ELIMINAR TODAS LAS RESERVAS DE UN ESPACIO ASOCIADAS A UN USUARIO--------
+//---------------ELIMINAR TODAS LAS RESERVAS DE UN ESPACIO ASOCIADAS A UN USUARIO-----------
 //await axios.delete(server+  '/booking/13/424131')
 
 

@@ -1,8 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import { readFile, writeFile } from 'fs/promises'
-import e from 'express'
-import { executionAsyncResource } from 'async_hooks'
 
 const PORT = 8080
 const app = express()
@@ -139,55 +137,96 @@ app.get('/user/:email', (req, res) => {
 })
 //------------------AÑADIR UN NUEVO USUARIO Y LOGIN------------------------------------
 
-const existe_email = usuarios.find((users) => users.email == "123@gmail.com")
-const id = existe_email.email.split("@")
+// const existe_email = usuarios.find((users) => users.email == "123@gmail.com")
+// const id = existe_email.email.split("@")
 
-console.log(existe_email)
-console.log(id[0])
+// console.log(existe_email)
+// console.log(id[0])
 
 app.post('/user', (req, res) => {
     const data_user = req.body
     const randomtoken = Math.floor(Math.random() * (9999 - 1111 + 1) + 1111);
     const existe_email = usuarios.find((users) => users.email == data_user.email)
-    const id = existe_email.email.split("@")
 
-    if (existe_email != null) {   // SI EXISTE EMAIL
+    if (existe_email != undefined) {   // SI EXISTE EMAIL
+        const id = existe_email.email.split("@")
+        if (existe_email.password === data_user.password) {   //COINCIDE EMAIL Y PASSWORD
 
-        if(existe_email.password === data_user.password){
-
+            const respuesta = {
+                id: id[0],
+                token: randomtoken
+            }
+            console.log("--------------------------------------------------------------------")
+            console.log("USUARIO CORRECTO")
+            console.log(respuesta)
         }
-        else{
+        else {   // COINCIDE EMAIL PERO NO PASSWORD
+            console.log("--------------------------------------------------------------------")
             console.log("EMAIL CORRECTO PERO CONTRASEÑA INCORRECTA")
         }
-        // if ((existe_email.email === data_user.email) & (existe_email.password === data_user.password)) { // COINCIDE CONTRASEÑA
-        //     const respuesta = {
-        //         id: id[0],
-        //         token: randomtoken
-        //     }
-        //     console.log(respuesta)
-        // }
-       
-
     }
-    else{ //NO EXISTE EMAIL
+    else { //NO EXISTE EMAIL == NO EXISTE USUARIO
+        const id = data_user.email.split("@")
 
+        const nuevo_usuario = {
+            email: data_user.email,
+            password: data_user.password
+        }
+        const respuesta = {
+            id: id[0],
+            token: randomtoken
+        }
+
+        usuarios.push(nuevo_usuario)
+
+        save('user.json', usuarios)
+        console.log("--------------------------------------------------------------------")
+        console.log("USUARIO CREADO")
+        console.log(respuesta)
     }
     res.send("OK")
 })
 
 //------------------ELIMINAR UN USUARIO------------------------------------------------
 
+// const usuario_existe = usuarios.find((user) => user.email.split("@")[0] == 123)
+// const reserva_existe = reservas.find((booking) => booking.userID == 123)
+
+// console.table(usuario_existe)
+// console.table(reserva_existe)
+
+
 app.delete('/user/:uid', (req, res) => {
-    const uid = req.params.uid  // ID del usuario dada por el cliente
-    const existencia = (x) => x.id == uid
-    const posicion = usuarios.findIndex(existencia)
+    const uid = req.params.uid  // ID DEL USUARIO   123
+
+
+    const usuario_existe = usuarios.find((user) => user.email.split("@")[0] == uid)
+    const reserva_existe = reservas.find((booking) => booking.userID == uid)
+
+    if ((usuario_existe != undefined)) {    // EXISTE ESPACIO
+        if (reserva_existe != undefined) {  // EXISTE ESPACIO, Y EXISTE RESERVA (!= UNDEFINED) BORARREMOS ESPACIO Y RESERVA
+            const usuariosfiltrados = usuarios.filter((user) => user.email.split("@")[0] != uid)
+            const reservasfiltradas = reservas.filter((booking) => booking.userID != uid)
+
+            save('user.json', usuariosfiltrados)
+            save('booking.json', reservasfiltradas)
+            console.log("ID COMPARTE USUARIO Y RESERVA")
+
+        } else {                            // EXISTE USUARIO, NO EXISTE RESERVA (== UNDEFINED) BORRAREMOS USUARIO
+
+            const usuariosfiltrados = usuarios.filter((user) => user.email.split("@")[0] != uid)
+            save('user.json', usuariosfiltrados)
+            console.log("SOLO BORRADO USUARIO, NO EXISTÍA RESERVA")
+        }
+    }
+    else {                                   // NO EXISTE USUARIO
+        console.log("NO EXISTE UN USUARIO ASOCIADO AL ID DADO")
+    }
+
+    res.send('OK')
 
 
 })
-
-
-
-
 
 
 /*****************************************************************************************/
@@ -197,46 +236,54 @@ app.delete('/user/:uid', (req, res) => {
 
 //------------------LISTAR RESERVAS DE UN ESPACIO-------------------------------------------
 
-app.get('/booking', (req, res) => {
-    res.send(reservas)
-    console.log(reservas)
-})
+
 app.get('/booking/room/:rid', (req, res) => {
     const rid = req.params.rid
-    const espaciosreservados = espacios.filter((x, y) => x.id == rid)
-    res.send({ espaciosfiltrados })
-    console.log("-----------------------------------------------------------------------")
-    console.log(espaciosfiltrados)
+    const reserva_existe = reservas.filter((booking) => booking.roomID === rid)
+
+    console.log(reserva_existe)
+    res.send({ reserva_existe })
+
 })
 
 
 //------------------AÑADIR UNA RESERVA------------------------------------------------------
 
+
 app.put('/booking/:rid/:uid', (req, res) => {
-    const rid = req.params.rid
-    const uid = req.params.uid
-    const data = req.body
+    const rid = req.params.rid  // ROOM ID
+    const uid = req.params.uid  // USER ID
+    const data_booking = req.body   // FECHA Y HORAS
 
-    const reserva = {
-        roomID: rid,
-        userID: uid,
-        Fecha: data.date,
-        Horas: data.hours
+    const espacio_existe = espacios.find((room) => room.id == rid)  // COMPRUEBA SI ESPACIO EXISTE
+    const usuario_existe = usuarios.find((user) => user.email.split("@")[0] == uid) // COMPRUEBA SI USUARIO EXISTE
+
+    if (espacio_existe != undefined) {    //ESPACIO EXISTE
+        if (usuario_existe != undefined) {    //USUARIO EXISTE
+            const reserva_nueva = {
+                roomID: rid,
+                userID: uid,
+                Fecha: data_booking.date,
+                Horas: data_booking.hours
+            }
+            console.log("Existen el espacio y el usuario. Reserva realizada con éxito")
+            reservas.push(reserva_nueva)
+            save('booking.json', reservas)
+        }
+        else {  //USUARIO NO EXISTE
+            console.log("Existe el espacio, pero no el usuario. Por favor, registrese antes de reservar")
+        }
+
     }
-
-    reservas.push(reserva)
-
-    save('booking.json', reservas)
-
-    res.send('Reserva realizada')
-
-    console.log(reservas)
+    else {   //ESPACIO NO EXISTE
+        console.log("No existe ningún espacio asociado a este Room ID")
+    }
+    res.send('OK')
 
 })
 
 
-
-//------------------ELIMINAR TODAS LAS RESERVAS DE UN ESPACIO ASOCIADAS A UN USUARIO--------
+//------------------ELIMINAR TODAS LAS RESERVAS DE UN ASOCIADAS A UN USUARIO--------
 
 app.delete('/booking/:rid/:uid', (req, res) => {
     const rid = req.params.rid

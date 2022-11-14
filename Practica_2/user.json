@@ -1,14 +1,10 @@
 [
-  {
-    "email": "123@gmail.com",
-    "password": "pass123"
-  },
-  {
-    "email": "456@gmail.com",
-    "password": "pass456"
-  },
-  {
-    "email": "789@gmail.com",
-    "password": "pass789"
-  }
+  { "email": "user1@gmail.com", "password": "pass1" },
+  { "email": "user2@gmail.com", "password": "pass2" },
+  { "email": "user3@gmail.com", "password": "pass3" },
+  { "email": "user4@gmail.com", "password": "pass4" },
+  { "email": "user5@gmail.com", "password": "pass5" },
+  { "email": "user6@gmail.com", "password": "pass6" },
+  { "email": "user7@gmail.com", "password": "pass7" },
+  { "email": "user8@gmail.com", "password": "pass8" }
 ]
