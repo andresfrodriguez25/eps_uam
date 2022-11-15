@@ -197,8 +197,8 @@ app.delete('/user/:uid', (req, res) => {
     const usuario_existe = usuarios.find((user) => user.email.split("@")[0] == uid)
     const reserva_existe = reservas.find((booking) => booking.userID == uid)
 
-    if ((usuario_existe != undefined)) {    // EXISTE ESPACIO
-        if (reserva_existe != undefined) {  // EXISTE ESPACIO, Y EXISTE RESERVA (!= UNDEFINED) BORARREMOS ESPACIO Y RESERVA
+    if ((usuario_existe != undefined)) {    // EXISTE USUARIO
+        if (reserva_existe != undefined) {  // EXISTE USUARIO, Y EXISTE RESERVA (!= UNDEFINED) BORARREMOS USUARIO Y RESERVA
             const usuariosfiltrados = usuarios.filter((user) => user.email.split("@")[0] != uid)
             const reservasfiltradas = reservas.filter((booking) => booking.userID != uid)
 
@@ -243,7 +243,43 @@ app.get('/booking/room/:rid', (req, res) => {
 
 //------------------AÑADIR UNA RESERVA------------------------------------------------------
 
+function isValidDate(dateObject) {
+    return new Date(dateObject).toString() !== 'Invalid Date';
+}
 
+//var today = new Date();
+var fecha = "2022-10-18T16:30:00Z"
+var fecha_date = new Date(Date.parse(fecha))
+console.log(fecha_date +
+    "\nyear: " + fecha_date.getFullYear() +
+    "\nmonth: " + fecha_date.getMonth() +
+    "\nday: " + fecha_date.getDay() +
+    "\nhour: " + fecha_date.getUTCHours() +
+    "\nminute: " + fecha_date.getMinutes() +
+    "\nUnixTime: " + fecha_date.getTime()) // segundos transcurridos desde 1/1/1970.
+
+console.log("Fecha en formato ISO:  " + fecha_date.toISOString() + " es válida: " + isValidDate(fecha_date))
+
+console.log(fecha_date)
+console.log('¿FECHA VALIDA?: ' + isValidDate(fecha_date))
+
+
+console.log('-------------------------------------------------------------------------')
+var fecha_date2 = new Date(Date.parse("2020-12-29T18:00:00.000Z"))
+console.log(fecha_date2)
+console.log("Fecha invalida:    " + fecha_date2 + " es válida: " + isValidDate(fecha_date2))
+
+console.log('¿FECHA VALIDA: ' + isValidDate(fecha_date2))
+
+
+if(isValidDate("2022-12-32 13:30:00") == true){ //SI LA FECHA ES VÁLIDA
+  
+    console.log("Existen el espacio y el usuario. Reserva realizada con éxito")
+
+}
+else{
+    console.log("La fecha no es valida")
+}
 app.put('/booking/:rid/:uid', (req, res) => {
     const rid = req.params.rid  // ROOM ID
     const uid = req.params.uid  // USER ID
@@ -254,15 +290,23 @@ app.put('/booking/:rid/:uid', (req, res) => {
 
     if (espacio_existe != undefined) {    //ESPACIO EXISTE
         if (usuario_existe != undefined) {    //USUARIO EXISTE
-            const reserva_nueva = {
-                roomID: rid,
-                userID: uid,
-                Fecha: data_booking.date,
-                Horas: data_booking.hours
+            //if(isValidDate(data_booking.date))
+
+            if(isValidDate(data_booking.date) == true){ //SI LA FECHA ES VÁLIDA
+                const reserva_nueva = {
+                    roomID: rid,
+                    userID: uid,
+                    Fecha: data_booking.date,
+                    Horas: data_booking.hours
+                }
+                console.log("Existen el espacio y el usuario. Reserva realizada con éxito")
+                reservas.push(reserva_nueva)
+                save('booking.json', reservas)
+
             }
-            console.log("Existen el espacio y el usuario. Reserva realizada con éxito")
-            reservas.push(reserva_nueva)
-            save('booking.json', reservas)
+            else{
+                console.log("La fecha no es válida , modificar el formato")
+            }
         }
         else {  //USUARIO NO EXISTE
             console.log("Existe el espacio, pero no el usuario. Por favor, registrese antes de reservar")

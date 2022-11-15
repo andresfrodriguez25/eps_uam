@@ -88,7 +88,7 @@ const reserva = new booking("2022-12-24 13:30:00", 2)
 
 
 //---------------ELIMINAR TODAS LAS RESERVAS DE UN ESPACIO ASOCIADAS A UN USUARIO-----------
-await axios.delete(server+  '/booking/1/user3')
+//await axios.delete(server+  '/booking/1/user3')
 
 
 
